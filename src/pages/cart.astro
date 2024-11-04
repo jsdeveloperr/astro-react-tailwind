@@ -1,0 +1,38 @@
+---
+// src/pages/cart.astro
+import Layout from '../layouts/Layout.astro';
+
+// Example cart items (statically defined for demo purposes)
+const cartItems = [
+  { id: 1, title: "Ürün 1", originalPrice: 120, discountRate: 0.2 },
+  { id: 2, title: "Ürün 2", originalPrice: 150, discountRate: 0.1 },
+];
+
+// Calculate discounted prices and total
+const cartTotal = cartItems.reduce((total, item) => {
+  const discountedPrice = item.originalPrice * (1 - item.discountRate);
+  return total + discountedPrice;
+}, 0);
+
+---
+
+<Layout title="Ürünler">
+    <main class="p-8">
+      <h1 class="text-2xl font-bold mb-6 text-center">Sepetiniz</h1>
+      <div class="space-y-4 max-w-md mx-auto">
+        {cartItems.map((item) => {
+          const discountedPrice = item.originalPrice * (1 - item.discountRate);
+          return (
+            <div id={`cart-${item.id}`} class="bg-white p-4 shadow rounded">
+              <h2 class="text-lg font-semibold">{item.title}</h2>
+              <p>Orijinal Fiyat: ₺{item.originalPrice.toFixed(2)}</p>
+              <p>İndirimli Fiyat: ₺{discountedPrice.toFixed(2)}</p>
+            </div>
+          );
+        })}
+      </div>
+      <div class="text-center mt-6 text-lg font-bold">Toplam İndirimli Fiyat: ₺{cartTotal.toFixed(2)}</div>
+    </main>
+  </Layout>
+  </body>
+</html>
